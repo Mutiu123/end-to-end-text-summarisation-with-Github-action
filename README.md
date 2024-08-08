@@ -12,7 +12,7 @@
 8. update the app.py
 
 
-# How to run?
+# How to run the project?
 ### STEPS:
 
 Clone the repository

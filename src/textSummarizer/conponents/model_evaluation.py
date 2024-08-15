@@ -66,7 +66,7 @@ class ModelEvaluation:
         rouge_metric = load_metric('rouge', trust_remote_code=True)
 
         score = self.calculate_metric_on_test_ds(
-            dataset_samsum_pt['test'][0:10],
+            dataset_samsum_pt['test'],
             rouge_metric,
             model_pegasus,
             tokenizer,

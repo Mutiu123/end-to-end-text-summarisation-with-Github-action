@@ -46,7 +46,9 @@ Now,
 ```bash
 open up you local host and port
 ```
-
+```bash
+Type: localhost:8080/
+```
 
 ```bash
 Author: Mutiu Adegboye

@@ -131,3 +131,9 @@ Email: adegboyemutiu@gmail.com
     AWS_ECR_LOGIN_URI = demo>>  566373416292.dkr.ecr.ap-south-1.amazonaws.com
 
     ECR_REPOSITORY_NAME = simple-app
+
+
+## **System Demo:**
+
+![The System Demo](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo1.png)
+![The System Demo1](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo2.png)

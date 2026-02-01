@@ -555,12 +555,8 @@ summarizeText(longText).then(summary => {
 ```
 
 ## Screenshots
-
-![Screenshot demo1](https://github.com/Mutiu123/End-to-end-Medical-Chatbot-Implementation-using-Llama2/blob/main/demo/demo1.png)
-
-![Screenshot demo2](https://github.com/Mutiu123/End-to-end-Medical-Chatbot-Implementation-using-Llama2/blob/main/demo/demo2.png)
-
-![Screenshot demo3](https://github.com/Mutiu123/End-to-end-Medical-Chatbot-Implementation-using-Llama2/blob/main/demo/demo3.png)
+![The System Demo](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo1.png)
+![The System Demo1](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo2.png)
 
 
 ## Docker Usage

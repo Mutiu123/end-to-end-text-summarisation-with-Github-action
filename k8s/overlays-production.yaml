@@ -1,0 +1,43 @@
+# Production Environment Overlay
+# Use with: kubectl apply -k overlays/production
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: text-summarizer
+
+bases:
+  - ../
+
+patchesStrategicMerge:
+  - |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: text-summarizer
+    spec:
+      replicas: 3
+      template:
+        spec:
+          containers:
+          - name: text-summarizer
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 2Gi
+              limits:
+                cpu: 4000m
+                memory: 8Gi
+
+configMapGenerator:
+  - name: text-summarizer-config
+    behavior: merge
+    literals:
+      - APP_ENV=production
+      - LOG_LEVEL=INFO
+      - RATE_LIMIT_REQUESTS=100
+
+images:
+  - name: text-summarizer
+    newName: your-registry.io/text-summarizer
+    newTag: v1.0.0

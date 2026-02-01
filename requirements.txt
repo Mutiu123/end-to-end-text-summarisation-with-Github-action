@@ -1,21 +1,59 @@
+# Core ML dependencies
 transformers
 transformers[sentencepiece]
 datasets
-sacrebleu 
+sacrebleu
 torch
 nltk
 tqdm
+rouge_score
+accelerate
+
+# Web framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+pydantic>=2.0
+pydantic-settings>=2.0
+
+# Configuration and utilities
 PyYAML
-notebook
-boto3
-mypy-boto3-s3
 python-box==6.0.2
 ensure==1.0.2
-fastapi==0.78.0
-uvicorn==0.18.3
-Jinja2==3.1.2
-rouge_score 
-py7zr
+Jinja2>=3.1.2
+
+# Database
+motor>=3.3.0
+pymongo>=4.5.0
+
+# Security
+PyJWT>=2.8.0
+python-multipart>=0.0.6
+
+# Monitoring
+prometheus-client>=0.17.0
+
+# AWS
+boto3
+mypy-boto3-s3
+
+# Data processing
 pandas
 matplotlib
+py7zr
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+httpx>=0.24.0
+black>=23.7.0
+flake8>=6.1.0
+mypy>=1.5.0
+pylint>=2.17.0
+pre-commit>=3.3.0
+
+# Notebook support
+notebook
+
+# Package
 -e .

@@ -1,0 +1,43 @@
+# Staging Environment Overlay
+# Use with: kubectl apply -k overlays/staging
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: text-summarizer-staging
+
+bases:
+  - ../
+
+patchesStrategicMerge:
+  - |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: text-summarizer
+    spec:
+      replicas: 2
+      template:
+        spec:
+          containers:
+          - name: text-summarizer
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                cpu: 2000m
+                memory: 4Gi
+
+configMapGenerator:
+  - name: text-summarizer-config
+    behavior: merge
+    literals:
+      - APP_ENV=staging
+      - LOG_LEVEL=DEBUG
+      - RATE_LIMIT_REQUESTS=50
+
+images:
+  - name: text-summarizer
+    newName: your-registry.io/text-summarizer
+    newTag: staging-latest

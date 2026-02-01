@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: text-summarizer
+  namespace: text-summarizer
+  labels:
+    app: text-summarizer
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: text-summarizer
+      component: api
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    scheme: http
+  namespaceSelector:
+    matchNames:
+    - text-summarizer

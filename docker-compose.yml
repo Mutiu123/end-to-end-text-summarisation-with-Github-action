@@ -1,0 +1,126 @@
+# =============================================================================
+# Docker Compose - Full Stack Configuration
+# Services: App, MongoDB, Prometheus, Grafana
+# =============================================================================
+
+version: "3.9"
+
+services:
+  # --- Application ---
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: text-summarizer-api
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_ENV=production
+      - LOG_LEVEL=INFO
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=text_summarizer
+      - ENABLE_METRICS=true
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - app-network
+    volumes:
+      - model-artifacts:/app/artifacts
+
+  # --- Application (Development) ---
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: text-summarizer-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=text_summarizer_dev
+      - SECRET_KEY=dev-secret-key
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - model-artifacts:/app/artifacts
+    networks:
+      - app-network
+    profiles:
+      - dev
+
+  # --- MongoDB ---
+  mongodb:
+    image: mongo:7
+    container_name: text-summarizer-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # --- Prometheus ---
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: text-summarizer-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=30d"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # --- Grafana ---
+  grafana:
+    image: grafana/grafana:latest
+    container_name: text-summarizer-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  mongodb-data:
+  prometheus-data:
+  grafana-data:
+  model-artifacts:
+
+networks:
+  app-network:
+    driver: bridge

@@ -168,6 +168,12 @@ Text Summarization API
     └── Configuration validation
 ```
 
+## Screenshots
+![The System Demo](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo1.png)
+![The System Demo1](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo2.png)
+
+
+
 ### Key Modules
 
 **Security Module** (`src/textSummarizer/security/`)
@@ -745,10 +751,6 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 docker tag text-summarizer-api:latest your-account-id.dkr.ecr.us-east-1.amazonaws.com/text-summarizer-api:v1.0.0
 docker push your-account-id.dkr.ecr.us-east-1.amazonaws.com/text-summarizer-api:v1.0.0
 ```
-
-## Screenshots
-![The System Demo](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo1.png)
-![The System Demo1](https://github.com/Mutiu123/end-to-end-text-summarisation-with-Github-action/blob/main/demos/demo2.png)
 
 #### 2. Create Namespace
 
